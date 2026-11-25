@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#d8f23a"><meta name="description" content="RxPulse: family health, recovery and medicine reminders in one place."><script src="config.js"></script><title>RxPulse – Family Health &amp; Recovery</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 10 10%22><text y=%228%22 font-size=%228%22>💚</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"></head><body><div id="lg"><div class="pnl"><div class="brand" style="justify-content:center"><span class="mark"><i></i></span>RxPulse</div><h1 style="font-size:34px;margin:16px 0 4px">Welcome <b>back.</b></h1><p class="sub">Sign in or create your family account.</p><input class="in" id="le" type="email" placeholder="Email"><input class="in" id="lp" type="password" placeholder="Password (6+ characters)"><input class="in" id="ln" placeholder="Your name (new accounts)"><button class="pri" onclick="auth_('login')">Sign in</button> <button class="chip" onclick="auth_('register')">Create account</button></div></div>
+<div class="sheet">
+<div class="top"><div class="brand"><span class="mark"><i></i></span>RxPulse</div>
+<div class="tabs" id="tabs"><span id="ink"></span><button class="on" data-v="fam">Family</button><button data-v="mem">Member</button><button data-v="scan">Food scan</button><button data-v="dev">Devices &amp; plan</button></div>
+<button class="ib" id="th" aria-label="Toggle theme">◐</button></div>
+
+<section class="view on" id="fam"><h1>Your family, <b>one pulse.</b></h1><p class="sub">Every phone, ring and watch syncs continuously. Tap someone to open their recovery dashboard.</p><div class="ribbon" id="rib"></div><div class="fam" id="famg"></div></section>
+
+<section class="view" id="mem"><h1 id="mh"></h1><p class="sub" id="ms"></p><div class="chips" id="chips"></div><div class="chips" id="goals"></div>
+<div class="dash"><div class="body"><svg class="sil" viewBox="0 0 300 440" preserveAspectRatio="xMidYMax meet"><defs><filter id="bl"><feGaussianBlur stdDeviation="9"/></filter><linearGradient id="fd" x1="0" y1="0" x2="0" y2="1"><stop offset=".55" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient><mask id="mk"><rect width="300" height="440" fill="url(#fd)"/></mask></defs><g mask="url(#mk)" filter="url(#bl)" fill="var(--sil)" opacity=".92"><ellipse cx="170" cy="105" rx="42" ry="54"/><path d="M60 440C60 300 90 230 150 215L200 215C250 230 275 300 270 440Z"/></g></svg>
+<div class="pin" style="left:4%;top:34%;--d:0s"><i></i><div><b data-n="hr" id="p1">0</b>bpm heart</div></div>
+<div class="pin" style="right:2%;top:55%;--d:-1.6s"><i></i><div><b id="p2">0</b>recovery</div></div>
+<div class="pin" style="left:10%;top:76%;--d:-3s"><i></i><div><b id="p3">0</b>steps</div></div></div>
+<div class="grid" id="tiles"></div></div>
+<div class="strip"><b style="font-weight:400">Today’s data</b><div class="rail"><i></i></div><span class="sub">Bed <input class="in" type="time" id="tb"> Wake <input class="in" type="time" id="tw"></span><button class="chip" onclick="rxf.click()">Add prescription photo</button><input type="file" id="rxf" accept="image/*" capture="environment" hidden><button class="chip" onclick="saveWeek()">Save this week</button></div><div class="pnl" id="rx" style="display:none;margin-top:14px"></div><div class="pnl" id="wk" style="display:none;margin-top:14px"></div></section>
+
+<section class="view" id="scan"><h1>Snap a meal. <b>See everything.</b></h1><div class="row2"><div class="pnl"><div class="drop" id="drop">Take or choose a photo</div><input type="file" id="file" accept="image/*" capture="environment" hidden><button class="pri" onclick="file.click()">Open camera</button><p class="sub" style="margin-top:10px">Demo result only. In production the AI reads the photo, you confirm, then it saves.</p></div>
+<div class="pnl" id="rs" style="display:none"><h3>AI estimate</h3><div class="num" style="font-size:54px"><span id="kc">0</span> <small>kcal</small></div><div id="its"></div><button class="pri" onclick="logMeal()">Confirm &amp; save</button></div></div></section>
+
+<section class="view" id="dev"><h1>Devices &amp; <b>the plan.</b></h1><div class="row2">
+<div class="pnl" style="--i:0"><h3>How it connects</h3><ul><li><b>One phone per family member</b> running the RxPulse app</li><li>Rings, bands and watches pair through <b>Health Connect</b> (Android) and <b>HealthKit</b> (iOS)</li><li>Background sync of heart rate, steps, sleep and screen use</li><li>Sleep is inferred from <b>phone off / on</b> times plus wearable data</li><li>Everything is written to the database <b>every week</b></li></ul></div>
+<div class="pnl" style="--i:1"><h3>AI you plug in</h3><ul><li><b>Food photo → calories:</b> vision model + verified food table</li><li><b>Prescription photo → reminders:</b> OCR + LLM, user confirms, push notification, Yes / No check</li><li><b>Recovery coach:</b> LLM using steps, sleep and heart data against the goal (lose, maintain, gain)</li><li>Keys stay on the server only</li></ul></div>
+<div class="pnl" style="--i:2"><h3>Database</h3><ul><li><b>PostgreSQL</b> via Prisma: Family, Member, Device, Vital, SleepLog, MealLog, Medication, DoseLog, WeeklySummary</li><li><b>Object storage</b> for photos, links only in the DB</li><li>Per-member consent and roles</li></ul></div><div class="pnl" style="--i:3" id="pair"></div></div></section>
+<p class="note">General information only. RxPulse is not a medical device and does not diagnose or treat.</p></div>
+<script src="js/data.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/views.js"></script>
+<script src="js/api.js"></script></body></html>
